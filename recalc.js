@@ -1,6 +1,17 @@
 window.onload = function () {
     var inputEl = document.getElementById('input');
+    if (window.location.hash.length) {    
+        try {
+            inputEl.value = atob(window.location.hash.slice(1));
+        } catch(e) {}
+    }
     var outputEl = document.getElementById('output');
+    var shareEl = document.getElementById('share');
+    var tinyurlEl = document.getElementById('tinyurl');
+    tinyurlEl.onclick = function() {
+        shareEl.value = window.location.href;
+        return true;
+    }
 
     var oldValue = null;
     var oldSelectionStart = null;
@@ -9,6 +20,7 @@ window.onload = function () {
         if (newValue !== oldValue) {
             oldValue = newValue;
             setTimeout(recalc, 0);
+            window.location.hash = btoa(newValue);
         }
 
         var newSelectionStart = inputEl.selectionStart;
