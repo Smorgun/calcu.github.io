@@ -10,8 +10,10 @@ window.onload = function () {
                 return unescape(atob(encodedData));
             }
         }
+        return '';
     };
     var encodeData = function(data) {
+        if (!data.length) return '';
         // try btoa() for ascii
         try {
             var encodedData = btoa(data);
@@ -27,13 +29,14 @@ window.onload = function () {
     var inputEl = document.getElementById('input');
     if (window.location.hash.length) {    
         try {
-            var encodedData = window.location.hash.slice(1);
-            inputEl.value = decodeData(encodedData);
+            //var encodedData = window.location.hash.slice(1);
+            inputEl.value = decodeData(window.location.hash.slice(1));
             //inputEl.value = unescape(atob(window.location.hash.slice(1)));
         } catch(e) {}
     }
     var outputEl = document.getElementById('output');
 
+    var warningEl = document.getElementById('warning');
     var shareEl = document.getElementById('share');
     var tinyurlEl = document.getElementById('tinyurl');
     tinyurlEl.onclick = function() {
@@ -55,6 +58,13 @@ window.onload = function () {
         if (newSelectionStart !== oldSelectionStart) {
             oldSelectionStart = newSelectionStart;
             setTimeout(recalc, 0);
+            window.location.hash = encodeData(newValue);
+        }
+
+        if (window.location.href.length > 2000) {
+            warningEl.style.display = '';
+        } else {
+            warningEl.style.display = 'none';
         }
 
         if (input.scrollTop !== output.scrollTop) {
