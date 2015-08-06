@@ -1,11 +1,39 @@
 window.onload = function () {
+    var decodeData = function(encodedData) {
+        if (encodedData.length > 1) {
+            var encodingType = encodedData[0];
+            encodedData = encodedData.slice(1);
+            if ('a' == encodingType) {
+                return atob(encodedData);
+            }
+            if ('e' == encodingType) {
+                return unescape(atob(encodedData));
+            }
+        }
+    };
+    var encodeData = function(data) {
+        // try btoa() for ascii
+        try {
+            var encodedData = btoa(data);
+            if (atob(encodedData) == data) {
+                return 'a' + encodedData;
+            }
+        } catch (e) {}
+        
+        // failed, do escape() for unicode
+        return 'e' + btoa(escape(data));
+    };
+    
     var inputEl = document.getElementById('input');
     if (window.location.hash.length) {    
         try {
-            inputEl.value = atob(window.location.hash.slice(1));
+            var encodedData = window.location.hash.slice(1);
+            inputEl.value = decodeData(encodedData);
+            //inputEl.value = unescape(atob(window.location.hash.slice(1)));
         } catch(e) {}
     }
     var outputEl = document.getElementById('output');
+
     var shareEl = document.getElementById('share');
     var tinyurlEl = document.getElementById('tinyurl');
     tinyurlEl.onclick = function() {
@@ -20,7 +48,7 @@ window.onload = function () {
         if (newValue !== oldValue) {
             oldValue = newValue;
             setTimeout(recalc, 0);
-            window.location.hash = btoa(newValue);
+            window.location.hash = encodeData(newValue);
         }
 
         var newSelectionStart = inputEl.selectionStart;
