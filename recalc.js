@@ -35,7 +35,7 @@ window.onload = function () {
         } catch(e) {}
     }
     
-    inputEl = inputEl.replace(",", ".");
+    inputEl.value = inputEl.value.replace(",", ".");
     
     var outputEl = document.getElementById('output');
 
