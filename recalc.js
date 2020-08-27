@@ -27,7 +27,6 @@ window.onload = function () {
     };
     
     var inputEl = document.getElementById('input');
-    inputEl = inputEl.replace(",", ".");
     if (window.location.hash.length) {    
         try {
             //var encodedData = window.location.hash.slice(1);
@@ -35,6 +34,9 @@ window.onload = function () {
             //inputEl.value = unescape(atob(window.location.hash.slice(1)));
         } catch(e) {}
     }
+    
+    inputEl = inputEl.replace(",", ".");
+    
     var outputEl = document.getElementById('output');
 
     var warningEl = document.getElementById('warning');
