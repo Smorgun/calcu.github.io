@@ -27,6 +27,7 @@ window.onload = function () {
     };
     
     var inputEl = document.getElementById('input');
+    inputEl = inputEl.replace(",", ".");
     if (window.location.hash.length) {    
         try {
             //var encodedData = window.location.hash.slice(1);
